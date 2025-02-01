@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:news/model/category%20model.dart';
 import 'package:news/utils/app%20colors.dart';
+import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+
+import '../../../providers/theme provider.dart';
 
 class CategoryFragment extends StatelessWidget {
   List<CategoryModel> categoriesList = [];
@@ -11,7 +14,8 @@ class CategoryFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    categoriesList = CategoryModel.getCategoryList(false);
+    var themeProvider = Provider.of<AppThemeProvider>(context);
+    categoriesList = CategoryModel.getCategoryList(themeProvider.isDarkMode());
 
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;

@@ -7,13 +7,16 @@ import 'package:news/utils/app%20colors.dart';
 class SourceTabWidget extends StatefulWidget {
   List<Source> sourceList;
 
-  SourceTabWidget({required this.sourceList});
+  SourceTabWidget({
+    required this.sourceList,
+  });
 
   @override
   State<SourceTabWidget> createState() => _SourceTabWidgetState();
 }
 
 class _SourceTabWidgetState extends State<SourceTabWidget> {
+  // NewsViewModel viewModel=NewsViewModel();
   int selectedIndex = 0;
 
   @override
@@ -25,6 +28,7 @@ class _SourceTabWidgetState extends State<SourceTabWidget> {
           TabBar(
             dividerColor: AppColor.transparent,
             onTap: (index) {
+              // viewModel.changeSelectedIndex(index);
               selectedIndex = index;
               setState(() {});
             },
@@ -39,6 +43,7 @@ class _SourceTabWidgetState extends State<SourceTabWidget> {
             }).toList(),
           ),
           Expanded(child: NewsWidget(source: widget.sourceList[selectedIndex])),
+          //widget.sourceList[selectedIndex
         ],
       ),
     );

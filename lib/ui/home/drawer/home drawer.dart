@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:news/ui/home/drawer/drawer%20item.dart';
+import 'package:news/ui/home/drawer/theme%20bottom%20sheet.dart';
 import 'package:news/utils/app%20colors.dart';
 import 'package:news/utils/app%20styles.dart';
 import 'package:news/utils/assets%20manager.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/theme provider.dart';
 
 class HomeDrawer extends StatelessWidget {
   Function onDrawerItemClicked;
@@ -11,6 +15,7 @@ class HomeDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<AppThemeProvider>(context);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Column(
@@ -45,26 +50,31 @@ class HomeDrawer extends StatelessWidget {
           height: height * 0.02,
         ),
         DrawerItem(imagePath: AssetsManager.themeIcon, text: 'Theme'),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: width * 0.04),
-          padding: EdgeInsets.symmetric(
-              horizontal: width * 0.04, vertical: height * 0.02),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColor.white),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Dark',
-                style: AppStyles.medium20White,
-              ),
-              Icon(
-                Icons.arrow_drop_down,
-                color: AppColor.white,
-              )
-            ],
+        InkWell(
+          onTap: () {
+            showThemeBottomSheet(context);
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: width * 0.04),
+            padding: EdgeInsets.symmetric(
+                horizontal: width * 0.04, vertical: height * 0.02),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColor.white),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  themeProvider.isDarkMode() ? 'Dark' : 'Light',
+                  style: AppStyles.medium20White,
+                ),
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: AppColor.white,
+                )
+              ],
+            ),
           ),
         ),
         SizedBox(
@@ -104,5 +114,10 @@ class HomeDrawer extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void showThemeBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context, builder: (context) => ThemeBottomSheet());
   }
 }
