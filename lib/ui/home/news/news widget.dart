@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/di/di%20inject.dart';
 import 'package:news/model/SourceResponse.dart';
 import 'package:news/ui/home/news/cubit/news%20states.dart';
-import 'package:news/ui/home/news/cubit/news%20view%20model%20(bloc).dart';
 import 'package:news/ui/home/news/news%20item.dart';
 import 'package:news/utils/app%20colors.dart';
+
+import 'cubit/news view model .dart';
 
 class NewsWidget extends StatefulWidget {
   Source source;
@@ -16,7 +18,7 @@ class NewsWidget extends StatefulWidget {
 }
 
 class _NewsWidgetState extends State<NewsWidget> {
-  NewsViewModel viewModel = NewsViewModel();
+  NewsViewModel viewModel = getIt<NewsViewModel>();
 
   //NewsWidgetViewModel viewModel=NewsWidgetViewModel();
 
@@ -36,6 +38,7 @@ class _NewsWidgetState extends State<NewsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    viewModel.getNewsBySourceId(widget.source.id ?? '');
     return BlocProvider(
       create: (context) => viewModel,
       child: BlocBuilder<NewsViewModel, NewsState>(builder: (context, state) {
